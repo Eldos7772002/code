@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Code Generator</title>
+   <link rel="shortcut icon" 
+href="http://someWebsiteLocation/images/imageName.ico">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .container {
+        background-color: white;
+        box-shadow: 0px 0px 10px #ccc;
+        padding: 50px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .generated-code {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #333;
+        animation: pulse 1s ease-in-out infinite;
+      }
+
+      button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+        box-shadow: 0px 0px 10px #888888;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Code Generator</h1>
+      <button id="generate-button" onclick="generate(minimum.value, maximum.value)">Generate Code</button>
+      <hr>
+      <output id="out"><a>Номер игрока</a></output>
+
+      <p id="generated-code" class="generated-code"></p> 
+      
+ 
+  <div>
+    <div>
+      Min value: <input type="text" id="minimum" value="1" />
+    </div>
+    <hr>
+    <div>
+      Max value: <input type="text" id="maximum" value="1472" />
+    </div>
+    <div>
+     
+    </div>
+  </div>
+
+    </div>
+
+    <script>
+
+      let displayRandomCode = false;
+
+      function generateCode() {
+        const code = [];
+        const characters = 'KvIZQJO';
+        code.push(characters.charAt(Math.floor(Math.random() * characters.length)));
+        for (let i = 0; i < 7; i++) {
+          code.push(Math.floor(Math.random() * 10));
+        }
+        code.push('-');
+        for (let i = 0; i < 7; i++) {
+          code.push(Math.floor(Math.random() * 10));
+        }
+        code.push('-');
+        code.push(Math.floor(Math.random() * 2));
+        code.push('-');
+        for (let i = 0; i < 7; i++) {
+          code.push(Math.floor(Math.random() * 10));
+        }
+        return code.join('');
+      }
+
+      const generateButton = document.getElementById('generate-button');
+      const generatedCodeDisplay = document.getElementById('generated-code');
+
+      generateButton.addEventListener('click', function() {
+        if (displayRandomCode) {
+          generatedCodeDisplay.textContent = generateCode();
+        } else {
+          setTimeout(() => { generatedCodeDisplay.textContent = "KvIZQJO-3857435-0-1248433"; }, 20000);
+
+          displayRandomCode = true;
+        }
+      });
+      function random(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+function range(cur, next, count) {
+  // ищем интервал между промежуточными значениями, если интервал слишком маленький устанавливаем 1
+  var diff = Math.floor((next - cur) / count) || 1;
+
+  // получаем промежуточные значения
+  var res = [cur];
+  for (var i = cur + diff; Math.abs(i - next) > Math.abs(diff); i += diff) {
+    res.push(i);
+  }
+  res.push(next);
+
+  return res;
+}
+
+var timer = null
+
+function generate(min, max) {
+  window.clearInterval(timer);
+  
+  var current = +out.value;
+  var next = random(min, max);
+  var rng = range(current, next, 25);
+  timer = setInterval(() => {
+    // на каждой итерации берем следующее значение, пока они не закончатся.
+    out.value = rng.shift();
+    if (!rng.length) window.clearInterval(timer);
+  }, 10);
+}
+    </script>
+  </body>
